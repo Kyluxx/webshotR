@@ -41,7 +41,7 @@ const webshot = async () => {
     console.log('Catching screenshot...')
     const screenshotBuffer = await page.screenshot()
     const imageMetadata = await sharp(screenshotBuffer).metadata();
-    
+
     const cropArea = {
       x: Math.max(0, boundingBox.x),
       y: Math.max(0, boundingBox.y),
@@ -79,7 +79,7 @@ const webshot = async () => {
       })
       .toBuffer()
     const path = require('path')
-    const outputPath = process.env.OUTPUT_DIR || path.resolve(__dirname, './pic/webshot.png');     
+    const outputPath = process.env.OUTPUT_DIR || path.resolve(__dirname, './pic/');     
     await sharp(croppedImageBuffer).toFile(outputPath)
     console.log(`Screenshot completely saved in: ${outputPath}`)
 
