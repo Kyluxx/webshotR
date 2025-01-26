@@ -35,14 +35,29 @@ const webshot = async () => {
 
     const element = await page.$(selector)
     const boundingBox = await element.boundingBox()
+    console.log('Bounding Box:', boundingBox);
 
     const cropArea = {
-      x: boundingBox.x,
-      y: boundingBox.y,
-      width: boundingBox.width, //- parseInt(process.env.LEBAR_CROP),
-      height: boundingBox.height //- parseInt(process.env.TINGGI_CROP),
+      x: Math.max(0, boundingBox.x),
+      y: Math.max(0, boundingBox.y),
+      width: Math.max(0, boundingBox.width - parseInt(process.env.LEBAR_CROP, 10)),
+      height: Math.max(0, boundingBox.height - parseInt(process.env.TINGGI_CROP, 10)),
+    };
+    
+    // Validate crop area against screenshot dimensions
+    const imageMetadata = await sharp(screenshotBuffer).metadata();
+    console.log('Image Metadata:', imageMetadata);
+    console.log('Crop Area:', cropArea);
+    
+    if (
+      cropArea.x < 0 || cropArea.y < 0 ||
+      cropArea.width <= 0 || cropArea.height <= 0 ||
+      cropArea.x + cropArea.width > imageMetadata.width ||
+      cropArea.y + cropArea.height > imageMetadata.height
+    ) {
+      throw new Error('Invalid crop area: Dimensions are out of bounds or zero.');
     }
-
+    
     console.log('Catching screenshot...')
     const screenshotBuffer = await page.screenshot()
 
