@@ -2,6 +2,7 @@ const puppeteer = require('puppeteer')
 const sharp = require('sharp')
 const { exec } = require('child_process')
 const fs = require('fs')
+const { setTimeout } = require('timers/promises')
 require('dotenv').config()
 
 const cooldown = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -50,8 +51,10 @@ const webshot = async () => {
     
     // Validate crop area against screenshot dimensions
     const imageMetadata = await sharp(screenshotBuffer).metadata();
-    console.log('Image Metadata:', imageMetadata);
-    console.log('Crop Area:', cropArea);
+    setTimeout(() => {
+      console.log('Image Metadata:', imageMetadata);
+      console.log('Crop Area:', cropArea);
+    }, 10000);
     /*
     if (
       cropArea.x < 0 || cropArea.y < 0 ||
