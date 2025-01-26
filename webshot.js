@@ -49,10 +49,10 @@ const webshot = async () => {
     console.log('Cropping screenshot...')
     const croppedImageBuffer = await sharp(screenshotBuffer)
       .extract({
-        left: cropArea.x,
-        top: cropArea.y,
-        width: cropArea.width,
-        height: cropArea.height,
+        left: Math.round(cropArea.x),
+        top: Math.round(cropArea.y),
+        width: Math.round(cropArea.width),
+        height: Math.round(cropArea.height),
       })
       .toBuffer()
     const path = require('path')
