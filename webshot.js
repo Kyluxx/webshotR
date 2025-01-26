@@ -39,8 +39,8 @@ const webshot = async () => {
     const cropArea = {
       x: boundingBox.x,
       y: boundingBox.y,
-      width: boundingBox.width - parseInt(process.env.LEBAR_CROP),
-      height: boundingBox.height - parseInt(process.env.TINGGI_CROP),
+      width: boundingBox.width, //- parseInt(process.env.LEBAR_CROP),
+      height: boundingBox.height //- parseInt(process.env.TINGGI_CROP),
     }
 
     console.log('Catching screenshot...')
