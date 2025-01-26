@@ -38,11 +38,12 @@ const webshot = async () => {
     console.log('Bounding Box:', boundingBox);
 
     const cropArea = {
-      x: boundingBox.x,
-      y: boundingBox.y,
-      width: boundingBox.width - parseInt(process.env.LEBAR_CROP),
-      height: boundingBox.height - parseInt(process.env.TINGGI_CROP),
-    }
+      x: Math.max(0, boundingBox.x),
+      y: Math.max(0, boundingBox.y),
+      width: Math.min(boundingBox.width, imageMetadata.width - boundingBox.x),
+      height: Math.min(boundingBox.height, imageMetadata.height - boundingBox.y),
+    };
+    
 
     console.log('Catching screenshot...')
     const screenshotBuffer = await page.screenshot()
