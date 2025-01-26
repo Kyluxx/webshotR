@@ -38,11 +38,14 @@ const webshot = async () => {
     console.log('Bounding Box:', boundingBox);
 
     const cropArea = {
-      x: Math.max(0, boundingBox.x),
-      y: Math.max(0, boundingBox.y),
-      width: Math.max(0, boundingBox.width - parseInt(process.env.LEBAR_CROP, 10)),
-      height: Math.max(0, boundingBox.height - parseInt(process.env.TINGGI_CROP, 10)),
-    };
+      x: boundingBox.x,
+      y: boundingBox.y,
+      width: boundingBox.width - parseInt(process.env.LEBAR_CROP),
+      height: boundingBox.height - parseInt(process.env.TINGGI_CROP),
+    }
+
+    console.log('Catching screenshot...')
+    const screenshotBuffer = await page.screenshot()
     
     // Validate crop area against screenshot dimensions
     const imageMetadata = await sharp(screenshotBuffer).metadata();
@@ -58,8 +61,6 @@ const webshot = async () => {
       throw new Error('Invalid crop area: Dimensions are out of bounds or zero.');
     }
     
-    console.log('Catching screenshot...')
-    const screenshotBuffer = await page.screenshot()
 
     console.log('Cropping screenshot...')
     const croppedImageBuffer = await sharp(screenshotBuffer)
@@ -76,24 +77,24 @@ const webshot = async () => {
     console.log(`Screenshot completely saved in: ${outputPath}`)
 
     // Mengirim file ke Telegram dan whatsapp
-    const chatId = process.env.TELEGRAM_CHAT_ID
-    const telegramBotToken = process.env. TELEGRAM_BOT_TOKEN
+    //const chatId = process.env.TELEGRAM_CHAT_ID
+    //const telegramBotToken = process.env. TELEGRAM_BOT_TOKEN
     const grupID = process.env.WA_GROUP_ID;
     const waApiUrl = process.env.WA_API_URL;
     const title = process.env.TITLE
     
     const timestamp = new Date().toLocaleString();
     
-    if (!chatId  || !grupID|| !waApiUrl) {
+    if ( !grupID|| !waApiUrl) {
       throw new Error("Something not found!")
     }
 
     const caption = `${title} | ${timestamp} (WIB)`
 
-    const telegramCurl = `curl -X POST -F "chat_id=${chatId}" -F "photo=@${outputPath}" -F "caption=${caption} " https://api.telegram.org/bot${telegramBotToken}/sendPhoto`
+    //const telegramCurl = `curl -X POST -F "chat_id=${chatId}" -F "photo=@${outputPath}" -F "caption=${caption} " https://api.telegram.org/bot${telegramBotToken}/sendPhoto`
     const waCurl = `curl -X POST -F "phone=${grupID}" -F "view_once=false" -F "caption=${caption}" -F "image=@${outputPath}" -F "compress=false" ${waApiUrl}`
 
-    const execCurl = `${telegramCurl} && ${waCurl}` 
+    const execCurl = `${waCurl}` 
     console.log(execCurl)
     console.log(`Trying to sending screenshot...`)
     exec(execCurl, (error, stdout, stderr) => {
