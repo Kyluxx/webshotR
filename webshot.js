@@ -9,7 +9,7 @@ const cooldown = ms => new Promise(resolve => setTimeout(resolve, ms))
 const webshot = async () => {
   try {
     const browser = await puppeteer.launch({
-      executablePath: '/usr/bin/chromium-browser', //delete for windows user
+      //executablePath: '/usr/bin/chromium-browser', //delete for windows user
       args: ['--no-sandbox'],
     })
     const page = await browser.newPage()
