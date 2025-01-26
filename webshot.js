@@ -51,7 +51,7 @@ const webshot = async () => {
     const imageMetadata = await sharp(screenshotBuffer).metadata();
     console.log('Image Metadata:', imageMetadata);
     console.log('Crop Area:', cropArea);
-    
+    /*
     if (
       cropArea.x < 0 || cropArea.y < 0 ||
       cropArea.width <= 0 || cropArea.height <= 0 ||
@@ -60,7 +60,7 @@ const webshot = async () => {
     ) {
       throw new Error('Invalid crop area: Dimensions are out of bounds or zero.');
     }
-    
+    */
 
     console.log('Cropping screenshot...')
     const croppedImageBuffer = await sharp(screenshotBuffer)
