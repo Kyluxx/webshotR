@@ -38,6 +38,7 @@ const webshot = async () => {
     const boundingBox = await element.boundingBox()
     console.log('Bounding Box:', boundingBox);
 
+    const imageMetadata = await sharp(screenshotBuffer).metadata();
     const cropArea = {
       x: Math.max(0, boundingBox.x),
       y: Math.max(0, boundingBox.y),
@@ -50,7 +51,7 @@ const webshot = async () => {
     const screenshotBuffer = await page.screenshot()
     
     // Validate crop area against screenshot dimensions
-    const imageMetadata = await sharp(screenshotBuffer).metadata();
+    
     setTimeout(() => {
       console.log('Image Metadata:', imageMetadata);
       console.log('Crop Area:', cropArea);
