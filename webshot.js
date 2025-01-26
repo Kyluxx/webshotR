@@ -99,7 +99,7 @@ const webshot = async () => {
     const caption = `${title} | ${timestamp} (WIB)`
 
     //const telegramCurl = `curl -X POST -F "chat_id=${chatId}" -F "photo=@${outputPath}" -F "caption=${caption} " https://api.telegram.org/bot${telegramBotToken}/sendPhoto`
-    const waCurl = `curl -X POST -F "phone=${grupID}" -F "view_once=false" -F "caption=${caption}" -F "image=@${outputPath}" -F "compress=false" ${waApiUrl}`
+    const waCurl = `curl -X POST -F "phone=${grupID}" -F "view_once=false" -F "caption=${caption}" -F "image=${outputPath}" -F "compress=false" ${waApiUrl}`
 
     const execCurl = `${waCurl}` 
     console.log(execCurl)
